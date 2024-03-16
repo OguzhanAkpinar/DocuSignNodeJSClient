@@ -1,0 +1,135 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "DocuSign NodeJS Client",
+      "description": "DocuSign NodeJS Client",
+      "license": {
+        "name": "MIT",
+        "url": "https://opensource.org/licenses/MIT"
+      }
+    },
+    "basePath": "/api/v1",
+    "tags": [
+      {
+        "name": "Envelope",
+        "description": "Envelope API"
+      }
+    ],
+    "schemes": ["http", "https"],
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
+    "paths": {
+      "/ds/createEnvelope": {
+        "post": {
+          "tags": ["Envelope"],
+          "summary": "Creeate new envelope and receipent view",
+          "parameters": [
+            {
+              "name": "createEnvelopeRequest",
+              "in": "body",
+              "required": true,
+              "description": "Create Envelope Request",
+              "schema": {
+                "$ref": "#/definitions/CreateEnvelopeModel"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "envelopeId": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/ds/getEnvelope/{envelopeId}": {
+        "get": {
+          "tags": ["Envelope"],
+          "summary": "Get envelope details",
+          "parameters": [
+            {
+              "name": "envelopeId",
+              "in": "path",
+              "required": true,
+              "description": "Envelope ID",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "CreateEnvelopeModel": {
+        "type": "object",
+        "properties": {
+          "signType": {
+            "type": "number"
+          },
+          "emailSubject": {
+            "type": "string"
+          },
+          "document": {
+            "$ref": "#/definitions/Document"
+          },
+          "signers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Receipent"
+            }
+          },
+          "ccs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Receipent"
+            }
+          }
+        }
+      },
+      "Receipent": {
+        "type": "object",
+        "properties": {
+          "emailAddress": {
+            "type": "string"
+          },
+          "fullName": {
+            "type": "string"
+          }
+        }
+      },
+      "Document": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
